@@ -801,37 +801,39 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 									<i class="icon-globe-outline"></i>
 								</div>
 								<div class="colorlib-text">
-									<p><a href="#">johnsonmunisi2021@gmail.com</a></p>
+									<p><a href="mailto:johnsonmunisi2021@gmail.com" onclick="return ensureMailto()">johnsonmunisi2021@gmail.com</a></p>
 								</div>
 							</div>
-
+			
+			
 							<div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
 								<div class="colorlib-icon">
 									<i class="icon-map"></i>
 								</div>
 								<div class="colorlib-text">
-									<p><a href="https://maps.app.goo.gl/4vFU5pD925Py22xeA"> Sera Street, House Number 39, Kibamba CCM, Dar es salaam </a></p>
+									<p><a href="https://maps.app.goo.gl/4kXhT5p5z9rY1x8K7" target="_blank" onclick="return ensureMap()"> Sera Street, House Number 39, Kibamba CCM, Dar es salaam</a></p>
 								</div>
 							</div>
-
+			
+			
 							<div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
 								<div class="colorlib-icon">
 									<i class="icon-phone"></i>
 								</div>
 								<div class="colorlib-text">
-									<p><a href="tel://">+255 692527140</a></p>
+									<p><a href="tel:+255692527140" onclick="return ensureTel()">+255 692527140</a></p>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-7 col-md-push-1">
 							<div class="row">
 								<div class="col-md-10 col-md-offset-1 col-md-pull-1 animate-box" data-animate-effect="fadeInRight">
-									<form action="mailto:johnsonmunisi2021@gmail.com" method="post" enctype="text/plain">
+									<form id="contact-form" onsubmit="return handleFormSubmit(event)">
 										<div class="form-group">
-											<input type="text" class="form-control" name="name" placeholder="Name" required>
+											<input type="text" class="form-control" name="name" placeholder="Your Name" required>
 										</div>
 										<div class="form-group">
-											<input type="email" class="form-control" name="email" placeholder="Email" required>
+											<input type="email" class="form-control" name="email" placeholder="Your Email" required>
 										</div>
 										<div class="form-group">
 											<input type="text" class="form-control" name="subject" placeholder="Subject" required>
@@ -844,12 +846,12 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 										</div>
 									</form>
 								</div>
-								
 							</div>
 						</div>
 					</div>
 				</div>
 			</section>
+			
 
 		</div><!-- end:colorlib-main -->
 	</div><!-- end:container-wrap -->
@@ -873,6 +875,90 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 	
 	<!-- MAIN JS -->
 	<script src="js/main.js"></script>
+
+
+
+<!-- ADDED JS -->
+<script>
+    // Handle form submission
+    function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent default form submission
+
+
+        // Get form data
+        const form = document.getElementById('contact-form');
+        const name = form.querySelector('input[name="name"]').value;
+        const email = form.querySelector('input[name="email"]').value;
+        const subject = form.querySelector('input[name="subject"]').value;
+        const message = form.querySelector('textarea[name="message"]').value;
+
+
+        // Construct the email body
+        const emailBody = `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`;
+
+
+        // Encode the subject and body for the mailto link
+        const encodedSubject = encodeURIComponent(subject);
+        const encodedBody = encodeURIComponent(emailBody);
+
+
+        // Create the mailto link
+        const mailtoLink = `mailto:johnsonmunisi2021@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
+
+
+        // Open the user's email client
+        try {
+            window.location.href = mailtoLink;
+            alert("Your email client has been opened. Please click 'Send' to submit your message.");
+        } catch (e) {
+            alert("Unable to open email client. Please email johnsonmunisi2021@gmail.com manually with your message.");
+        }
+
+
+        // Reset the form
+        form.reset();
+
+
+        return false; // Prevent form submission
+    }
+
+
+    // Ensure mailto links work across devices
+    function ensureMailto() {
+        try {
+            window.location.href = "mailto:johnsonmunisi2021@gmail.com";
+            return true;
+        } catch (e) {
+            alert("Unable to open email client. Please email johnsonmunisi2021@gmail.com manually.");
+            return false;
+        }
+    }
+
+
+    // Ensure map links work across devices
+    function ensureMap() {
+        try {
+            window.open("https://maps.app.goo.gl/4kXhT5p5z9rY1x8K7", "_blank");
+            return true;
+        } catch (e) {
+            alert("Unable to open map. Please search for '198 West 21th Street, Suite 721 New York NY 10016' manually.");
+            return false;
+        }
+    }
+
+
+    // Ensure tel links work across devices
+    function ensureTel() {
+        try {
+            window.location.href = "tel:+255692527140";
+            return true;
+        } catch (e) {
+            alert("Unable to initiate call. Please dial +255 692527140 manually.");
+            return false;
+        }
+    }
+</script>
+
 
 	</body>
 </html>
